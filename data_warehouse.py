@@ -27,5 +27,25 @@ def channel_information(input_id):
                     Views=i["statistics"]['viewCount'],
                     Total_Videos=i["statistics"]['videoCount'],
                     Channel_Description=i["snippet"]['description'],
-                    Playlist_id=i['contentDetails']['uploads'])
+                    Playlist_id=i['contentDetails']['relatedPlaylists']['uploads'])
     return data
+#creating a function to get information about all the videos of the channel 
+def video_info(channel_id):
+    Video_id_list=[]
+    response=youtube.channels().list(id=channel_id,
+                                    part='contentDetails').execute()
+    playlist_id=response['items'][0]['contentDetails']['relatedPlaylists']['uploads']
+    next_page_tokens=None
+    while True:
+        request = youtube.playlistItems().list(
+            part="snippet",
+            playlistId=playlist_id ,
+            maxResults=50,
+            pageToken=next_page_tokens).execute()
+        for i in range(len(request["items"])):
+            Video_id_list.append(request["items"][i]['snippet']['resourceId']['videoId'])
+        next_page_tokens=request.get('nextPageToken')
+        
+        if next_page_tokens is None:
+            break
+    return Video_id_list
