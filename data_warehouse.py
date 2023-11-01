@@ -1,10 +1,11 @@
 from googleapiclient.discovery import build
+import mysql.connector
 import streamlit as st 
 import pandas as pd
 import numpy as np
 import json
 import re
-#creating a function for connection
+#creating a function for API connection
 def Api_connect():
     api_key="AIzaSyDj5WwmFp4Qu03Px3qKzU0o0KsdrV_IJsw"
     api_service_name="youtube"
@@ -30,7 +31,7 @@ def channel_information(input_id):
                     Playlist_id=i['contentDetails']['relatedPlaylists']['uploads'])
     return data
 #creating a function to get information about all the videos of the channel 
-def video_info(channel_id):
+def all_video_info(channel_id):
     Video_id_list=[]
     response=youtube.channels().list(id=channel_id,
                                     part='contentDetails').execute()
@@ -49,3 +50,34 @@ def video_info(channel_id):
         if next_page_tokens is None:
             break
     return Video_id_list
+
+#creating a function to get information about video
+def get_video_info(ids):
+        video_data=[]
+        for video_id in ids:
+                request=youtube.videos().list(
+                        part="snippet,contentDetails,statistics",
+                        id=video_id
+                )
+                response=request.execute()
+                for item in response['items']:
+                        data=dict(Channel_name=item["snippet"]['channelTitle'],
+                                Channel_id=item["snippet"]['channelId'],
+                                Video_id=item['id'],
+                                Title=item['snippet']["title"],
+                                Tags=item.get('tags'),
+                                Thumbnail=item['snippet']['thumbnails'],
+                                Description=item.get('description'),
+                                Published_Date=item['snippet']['publishedAt'],
+                                Duration=item['contentDetails']['duration'],
+                                Views=item.get('viewCount'),
+                                Comments=item.get('commentCount'),
+                                Favorite_count=item['statistics']['favoriteCount'],
+                                Definition=item['contentDetails']['definition'],
+                                Caption_status=item['contentDetails']['caption']
+                                )
+                        video_data.append(data)
+        return video_data
+
+#creating a function to get comment information
+def get_comment_info(ids):
