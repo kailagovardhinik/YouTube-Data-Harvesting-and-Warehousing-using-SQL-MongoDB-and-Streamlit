@@ -1,0 +1,8 @@
+1.Name: pandas
+Version: 2.1.1
+
+2.Name: streamlit
+Version: 1.27.2
+
+3.Name: pymongo
+Version: 4.6.0
