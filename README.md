@@ -18,3 +18,12 @@ The primary aim of this project is to create an application to simplify the proc
 - SQL Database: Utilized for storing structured data for further analysis.
 
 Feel free to contribute to this project by creating pull requests or raising issues.
+
+##Project Workflow
+- User inputs YouTube channel ID in the Streamlit app.
+- Data is retrieved from the YouTube API.
+- Retrieved data is stored in MongoDB as a data lake.
+- User clicks a button to collect data for up to 10 different YouTube channels and stores them in the data lake.
+- User selects a channel name to migrate its data from the data lake to a SQL database as tables.
+- User queries the SQL database using different search options in the Streamlit app.
+- SQL query results are displayed as tables in the Streamlit app.
