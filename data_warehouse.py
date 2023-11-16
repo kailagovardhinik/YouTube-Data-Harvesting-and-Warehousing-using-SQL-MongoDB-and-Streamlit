@@ -159,7 +159,7 @@ def channel_details(Channel_ID):
     col1=db["Channel Details"]
     col1.insert_one({"channel_information":Channel_Detail,"playlist_information":Playlist_Detail,
                         "video_information":Video_Ids,"comment_information":Comment_details})
-    return "Upload Completed Successfully"
+    return ""Data has been uploaded successfully""
 
 #creating a table for channels in mysql database
 def channels_table():
