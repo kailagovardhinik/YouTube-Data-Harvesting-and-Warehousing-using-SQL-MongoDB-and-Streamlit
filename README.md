@@ -19,7 +19,7 @@ The primary aim of this project is to create an application to simplify the proc
 
 Feel free to contribute to this project by creating pull requests or raising issues.
 
-##Project Workflow
+## Project Workflow
 - User inputs YouTube channel ID in the Streamlit app.
 - Data is retrieved from the YouTube API.
 - Retrieved data is stored in MongoDB as a data lake.
