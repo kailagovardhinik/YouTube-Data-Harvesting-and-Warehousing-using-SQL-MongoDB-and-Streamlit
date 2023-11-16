@@ -147,20 +147,22 @@ def channel_details(Channel_ID):
                         "video_information":Video_Ids,"comment_information":Comment_details})
     return "Upload Complete Successfully"
 
+#creating a connection to sql
+
+mydb=mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="risehigh07",
+    database="youtube_data"
+    )
+mycursor=mydb.cursor()
+
 #creating a table for channels 
 def channels_table():
-    mydb=mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="risehigh07",
-        database="youtube_data"
-        )
-    mycursor=mydb.cursor()
     drop='''drop table if exists channels'''
     mycursor.execute(drop)
     mydb.commit()
 
-    #creating a table for channels
     try:
         create_query='''create table if not exists channels(Channel_name varchar(255),
     Channel_ID varchar(255),
@@ -208,13 +210,6 @@ def channels_table():
 
 #creating a table for playlist 
 def playlists_table():
-    mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="risehigh07",
-        database="youtube_data"
-        )
-    mycursor=mydb.cursor()
     drop='''drop table if exists playlists'''
     mycursor.execute(drop)
     mydb.commit()
@@ -267,13 +262,6 @@ def playlists_table():
 #creating a table for Videos
 
 def videos_table():    
-    mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="risehigh07",
-        database="youtube_data"
-        )
-    mycursor=mydb.cursor()
     drop='''drop table if exists videos'''
     mycursor.execute(drop)
     mydb.commit()
@@ -357,14 +345,6 @@ def videos_table():
 
 #creating a table for comments
 def comments_table():
-    
-    mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="risehigh07",
-        database="youtube_data"
-        )
-    mycursor=mydb.cursor()
     drop='''drop table if exists comments'''
     mycursor.execute(drop)
     mydb.commit()
