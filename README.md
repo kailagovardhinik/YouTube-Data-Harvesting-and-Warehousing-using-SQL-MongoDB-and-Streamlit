@@ -17,7 +17,7 @@ The primary aim of this project is to create an application to simplify the proc
 - MongoDB: Used as a data lake for storing raw data.
 - SQL Database: Utilized for storing structured data for further analysis.
 
-Feel free to contribute to this project by creating pull requests or raising issues.
+
 
 ## Project Workflow
 - User inputs YouTube channel ID in the Streamlit app.
@@ -27,3 +27,5 @@ Feel free to contribute to this project by creating pull requests or raising iss
 - User selects a channel name to migrate its data from the data lake to a SQL database as tables.
 - User queries the SQL database using different search options in the Streamlit app.
 - SQL query results are displayed as tables in the Streamlit app.
+
+Feel free to contribute to this project by creating pull requests or raising issues.
