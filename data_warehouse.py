@@ -1,4 +1,5 @@
 from googleapiclient.discovery import build
+import pymongo
 from pymongo import MongoClient
 import mysql.connector
 import pandas as pd
@@ -134,13 +135,13 @@ def get_playlist_details(Channel_ID):
 client=pymongo.MongoClient("mongodb://localhost:27017")
 db=client["YouTube_Data"]
 
-def get_channel_details(Channel_ID):
+def channel_details(Channel_ID):
     Channel_Detail=channel_information(Channel_ID)
     Playlist_Detail=get_playlist_details(Channel_ID)
     Video_Ids=all_video_info(Channel_ID)
     Video_info=get_video_information(Video_Ids)
     Comment_details=comment_information(Video_Ids)
-  
+
     coll1=db["Channel Details"]
     coll1.insert_one({"channel_information":Channel_Detail,"playlist_information":Playlist_Detail,
                         "video_information":Video_Ids,"comment_information":Comment_details})
@@ -234,7 +235,7 @@ def playlists_table():
 
 
     db = client["Youtube_data"]
-    coll1 =db["channel_details"]
+    coll1 =db["Channel Details"]
     pl_list = []
     for pl_data in coll1.find({},{"_id":0,"playlist_information":1}):
         for i in range(len(pl_data["playlist_information"])):
@@ -303,7 +304,7 @@ def videos_table():
 
     vi_list = []
     db = client["Youtube_data"]
-    coll1 = db["channel_details"]
+    coll1 = db["Channel Details"]
     for vi_data in coll1.find({},{"_id":0,"video_information":1}):
         for i in range(len(vi_data["video_information"])):
             vi_list.append(vi_data["video_information"][i])
@@ -382,7 +383,7 @@ def comments_table():
 
     com_list = []
     db = client["Youtube_data"]
-    coll1 = db["channel_details"]
+    coll1 = db["Channel Details"]
     for com_data in coll1.find({},{"_id":0,"comment_information":1}):
         for i in range(len(com_data["comment_information"])):
             com_list.append(com_data["comment_information"][i])
@@ -423,7 +424,7 @@ def tables():
 def show_channels_table():
     ch_list = []
     db = client["Youtube_data"]
-    coll1 = db["channel_details"] 
+    coll1 = db["Channel Details"] 
     for ch_data in coll1.find({},{"_id":0,"channel_information":1}):
         ch_list.append(ch_data["channel_information"])
     channels_table = st.dataframe(ch_list)
@@ -431,7 +432,7 @@ def show_channels_table():
 
 def show_playlists_table():
     db = client["Youtube_data"]
-    coll1 =db["channel_details"]
+    coll1 =db["Channel Details"]
     pl_list = []
     for pl_data in coll1.find({},{"_id":0,"playlist_information":1}):
         for i in range(len(pl_data["playlist_information"])):
@@ -442,7 +443,7 @@ def show_playlists_table():
 def show_videos_table():
     vi_list = []
     db = client["Youtube_data"]
-    coll2 = db["channel_details"]
+    coll2 = db["Channel Details"]
     for vi_data in coll2.find({},{"_id":0,"video_information":1}):
         for i in range(len(vi_data["video_information"])):
             vi_list.append(vi_data["video_information"][i])
@@ -452,7 +453,7 @@ def show_videos_table():
 def show_comments_table():
     com_list = []
     db = client["Youtube_data"]
-    coll3 = db["channel_details"]
+    coll3 = db["Channel Details"]
     for com_data in coll3.find({},{"_id":0,"comment_information":1}):
         for i in range(len(com_data["comment_information"])):
             com_list.append(com_data["comment_information"][i])
@@ -463,43 +464,37 @@ def show_comments_table():
 #building a streamlit application
 with st.sidebar:
     st.title(":red[YOUTUBE DATA HARVESTING AND WAREHOUSING]")
-    st.header("SKILL TAKE AWAY")
-    st.caption('Python scripting')
-    st.caption("Data Collection")
-    st.caption("MongoDB")
-    st.caption("API Integration")
-    st.caption("Data Managment using MongoDB and SQL")
     
-channel_id = st.text_input("Enter the Channel id")
+channel_id = st.text_input("Channel ID")
 channels = channel_id.split(',')
 channels = [ch.strip() for ch in channels if ch]
 
-if st.button("Collect and Store data"):
+if st.button("Collect and Store Data"):
     for channel in channels:
         ch_ids = []
         db = client["Youtube_data"]
-        coll1 = db["channel_details"]
+        coll1 = db["Channel Details"]
         for ch_data in coll1.find({},{"_id":0,"channel_information":1}):
-            ch_ids.append(ch_data["channel_information"]["Channel_Id"])
+            ch_ids.append(ch_data["channel_information"]["Channel_id"])
         if channel in ch_ids:
             st.success("Channel details of the given channel id: " + channel + " already exists")
         else:
             output = channel_details(channel)
             st.success(output)
             
-if st.button("Migrate to SQL"):
+if st.button("Migrate Data to SQL"):
     display = tables()
     st.success(display)
     
-show_table = st.radio("SELECT THE TABLE FOR VIEW",(":green[channels]",":orange[playlists]",":red[videos]",":blue[comments]"))
+show_table = st.radio("SELECT THE TABLE FOR VIEW",(":black[Channels]",":black[Playlists]",":black[Videos]",":black[Comments]"))
 
-if show_table == ":green[channels]":
+if show_table == ":black[Channels]":
     show_channels_table()
-elif show_table == ":orange[playlists]":
+elif show_table == ":black[Playlists]":
     show_playlists_table()
-elif show_table ==":red[videos]":
+elif show_table ==":black[Videos]":
     show_videos_table()
-elif show_table == ":blue[comments]":
+elif show_table == ":black[Comments]":
     show_comments_table()
 
 #SQL connection
@@ -511,9 +506,9 @@ mydb = mysql.connector.connect(
         )
 mycursor = mydb.cursor()
     
-question = st.selectbox(
-    'Please Select Your Question',
-    ('1. All the videos and the Channel Name',
+question = st.selectbox('Curated Inquiries',
+    ('Please Select Your Question',
+    '1. All the videos and channel Name',
     '2. Channels with most number of videos',
     '3. 10 most viewed videos',
     '4. Comments in each video',
@@ -524,19 +519,17 @@ question = st.selectbox(
     '9. average duration of all videos in each channel',
     '10. videos with highest number of comments'))
 
-
-if question == '1. All the videos and the Channel Name':
+if question == '1. All the videos and the channel Name':
     query1 = "select Title as videos, Channel_Name as ChannelName from videos;"
     mycursor.execute(query1)
     mydb.commit()
     t1=cursor.fetchall()
     st.write(pd.DataFrame(t1, columns=["Video Title","Channel Name"]))
-
 elif question == '2. Channels with most number of videos':
     query2 = "select Channel_Name as ChannelName,Total_Videos as NO_Videos from channels order by Total_Videos desc;"
     mycursor.execute(query2)
     mydb.commit()
-    t2=cursor.fetchall()
+    t2=mycursor.fetchall()
     st.write(pd.DataFrame(t2, columns=["Channel Name","No Of Videos"]))
 
 elif question == '3. 10 most viewed videos':
@@ -544,14 +537,14 @@ elif question == '3. 10 most viewed videos':
                         where Views is not null order by Views desc limit 10;'''
     mycursor.execute(query3)
     mydb.commit()
-    t3 = cursor.fetchall()
+    t3 = mycursor.fetchall()
     st.write(pd.DataFrame(t3, columns = ["views","channel Name","video title"]))
 
 elif question == '4. Comments in each video':
     query4 = "select Comments as No_comments ,Title as VideoTitle from videos where Comments is not null;"
     mycursor.execute(query4)
     mydb.commit()
-    t4=cursor.fetchall()
+    t4=mycursor.fetchall()
     st.write(pd.DataFrame(t4, columns=["No Of Comments", "Video Title"]))
 
 elif question == '5. Videos with highest likes':
@@ -559,21 +552,21 @@ elif question == '5. Videos with highest likes':
     where Likes is not null order by Likes desc;'''
     mycursor.execute(query5)
     mydb.commit()
-    t5 = cursor.fetchall()
+    t5 = mycursor.fetchall()
     st.write(pd.DataFrame(t5, columns=["video Title","channel Name","like count"]))
 
 elif question == '6. likes of all videos':
     query6 = '''select Likes as likeCount,Title as VideoTitle from videos;'''
     mycursor.execute(query6)
     mydb.commit()
-    t6 = cursor.fetchall()
+    t6 = mycursor.fetchall()
     st.write(pd.DataFrame(t6, columns=["like count","video title"]))
 
 elif question == '7. views of each channel':
     query7 = "select Channel_Name as ChannelName, Views as Channelviews from channels;"
     mycursor.execute(query7)
     mydb.commit()
-    t7=cursor.fetchall()
+    t7=mycursor.fetchall()
     st.write(pd.DataFrame(t7, columns=["channel name","total views"]))
 
 elif question == '8. videos published in the year 2022':
@@ -581,14 +574,14 @@ elif question == '8. videos published in the year 2022':
                 where extract(year from Published_Date) = 2022;'''
     mycursor.execute(query8)
     mydb.commit()
-    t8=cursor.fetchall()
+    t8=mycursor.fetchall()
     st.write(pd.DataFrame(t8,columns=["Name", "Video Publised On", "ChannelName"]))
 
 elif question == '9. average duration of all videos in each channel':
     query9 =  "SELECT Channel_Name as ChannelName, AVG(Duration) AS average_duration FROM videos GROUP BY Channel_Name;"
     mycursor.execute(query9)
     mydb.commit()
-    t9=cursor.fetchall()
+    t9=mycursor.fetchall()
     t9 = pd.DataFrame(t9, columns=['ChannelTitle', 'Average Duration'])
     T9=[]
     for index, row in t9.iterrows():
@@ -603,5 +596,5 @@ elif question == '10. videos with highest number of comments':
     where Comments is not null order by Comments desc;'''
     mycursor.execute(query10)
     mydb.commit()
-    t10=cursor.fetchall()
+    t10=mycursor.fetchall()
     st.write(pd.DataFrame(t10, columns=['Video Title', 'Channel Name', 'NO Of Comments']))
