@@ -17,7 +17,11 @@ The primary aim of this project is to create an application to simplify the proc
 - MongoDB: Used as a data lake for storing raw data.
 - SQL Database: Utilized for storing structured data for further analysis.
 
-
+## Libraries Used
+- streamlit
+- pandas
+- pymongo
+- googleapiclient.discovery
 
 ## Project Workflow
 - User inputs YouTube channel ID in the Streamlit app.
