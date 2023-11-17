@@ -16,7 +16,7 @@ The primary aim of this project is to create an application to simplify the proc
 
 ## Project Workflow:
 
-#	User Inputs YouTube Channel ID in the Streamlit app:
+###	User Inputs YouTube Channel ID in the Streamlit app:
 -	The user can still manually input a YouTube channel ID for immediate data retrieval.
 2.	Scheduled Data Collection and Storage:
 -	Introduce a scheduling option in the Streamlit app where users can specify the frequency (daily, weekly, etc.) and time for automatic data collection for their selected YouTube channels.
