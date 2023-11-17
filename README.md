@@ -33,7 +33,7 @@ The primary aim of this project is to create an application to simplify the proc
 -	The Streamlit app should display the results of SQL queries in tables for easy visualization and analysis.
 -	Provide options for exporting/query results for further analysis or sharing.
 
-![image](https://github.com/kailagovardhinik/YouTube-Data-Harvesting-and-Warehousing-using-SQL-MongoDB-and-Streamlit/assets/141433548/7dab6bb6-9205-40ee-af17-1821a145da8f)
+
 
 
 Feel free to contribute to this project by creating pull requests or raising issues.
