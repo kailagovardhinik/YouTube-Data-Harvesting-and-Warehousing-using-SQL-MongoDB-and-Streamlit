@@ -17,7 +17,7 @@ The primary aim of this project is to create an application to simplify the proc
 ## Project Workflow:
 
 1.  User Inputs YouTube Channel ID in the Streamlit app:
--	The user can still manually input a YouTube channel ID for immediate data retrieval.
+-	The user can manually input a YouTube channel ID for immediate data retrieval.
 2.	Scheduled Data Collection and Storage:
 -	Introduce a scheduling option in the Streamlit app where users can specify the frequency (daily, weekly, etc.) and time for automatic data collection for their selected YouTube channels.
 -	Implement a background task that runs at the scheduled time to fetch the latest data from the YouTube API for the specified channels.
@@ -32,6 +32,8 @@ The primary aim of this project is to create an application to simplify the proc
 6.	Display Query Results in Streamlit App:
 -	The Streamlit app should display the results of SQL queries in tables for easy visualization and analysis.
 -	Provide options for exporting/query results for further analysis or sharing.
+
+![image](https://github.com/kailagovardhinik/YouTube-Data-Harvesting-and-Warehousing-using-SQL-MongoDB-and-Streamlit/assets/141433548/7dab6bb6-9205-40ee-af17-1821a145da8f)
 
 
 Feel free to contribute to this project by creating pull requests or raising issues.
