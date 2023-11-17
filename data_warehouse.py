@@ -5,7 +5,6 @@ import mysql.connector
 import pandas as pd
 import streamlit as st
 
-
 #connecting to youtube using API Key
 youtube = build("youtube","v3", developerKey="AIzaSyDj5WwmFp4Qu03Px3qKzU0o0KsdrV_IJsw")
 
@@ -29,7 +28,6 @@ def channel_information(Channel_id):
         part="snippet,statistics,status,topicDetails,contentDetails",
         id=Channel_id
     )
-    
     response = request.execute()
     
     for i in response['items']:
@@ -148,6 +146,7 @@ def get_video_information(Video_id):
         return video_data
     
 
+
 # Function Block that consists of five other functions to get the details from channel ID
 def channel_details(Channel_ID):
     Channel_Detail=channel_information(Channel_ID)
@@ -158,8 +157,8 @@ def channel_details(Channel_ID):
 
     col1=db["Channel Details"]
     col1.insert_one({"channel_information":Channel_Detail,"playlist_information":Playlist_Detail,
-                        "video_information":Video_Ids,"comment_information":Comment_details})
-    return ""Data has been uploaded successfully""
+                        "video_information":Video_info,"comment_information":Comment_details})
+    return "Upload Completed Successfully"
 
 #creating a table for channels in mysql database
 def channels_table():
@@ -457,9 +456,8 @@ def show_comments_table():
 #building a streamlit application
 with st.sidebar:
     st.title(":red[YOUTUBE DATA HARVESTING AND WAREHOUSING]")
-    st.divider()
-    st.caption(":black[Effortlessly explore and analyze data from multiple channels, dive into the metrics that matter most to you, and experience the re-imagined world of YouTube analytics]:rocket:")
-    
+st.subheader(":black[_Effortlessly explore and analyze data from multiple channels_]:rocket:")
+st.divider()   
 channel_id = st.text_input("Channel ID")
 channels = channel_id.split(',')
 channels = [ch.strip() for ch in channels if ch]
