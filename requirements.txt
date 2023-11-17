@@ -6,3 +6,9 @@ Version: 1.27.2
 
 3.Name: pymongo
 Version: 4.6.0
+
+4.Name: google-api-python-client
+Version: 2.106.0
+
+5.Name: mysql-connector-python
+Version: 8.2.0
