@@ -20,24 +20,16 @@ The primary aim of this project is to create an application to simplify the proc
 
 1.  User Inputs YouTube Channel ID in the Streamlit app:
 -	The user can manually input a YouTube channel ID for immediate data retrieval.
-2.	Scheduled Data Collection and Storage:
--	Introduce a scheduling option in the Streamlit app where users can specify the frequency (daily, weekly, etc.) and time for automatic data collection for their selected YouTube channels.
--	Implement a background task that runs at the scheduled time to fetch the latest data from the YouTube API for the specified channels.
--	Store the retrieved data in MongoDB as part of the data lake.
+2.	Data Collection and Storage:
+-	the retrived data is stored in MongoDB compass as part of the data lake.
 3.	User Clicks a Button to Collect Data for Up to 10 Channels:
 -	Users can still manually trigger the data collection process for immediate needs.
 4.	User Selects a Channel Name to Migrate Data to SQL Database:
 -	The user can choose a specific channel from the data lake for migration to the SQL database as tables.
-5.	User Queries SQL Database in Streamlit App:
--	Enhance the SQL query options to include filtering based on the time of data collection or other relevant parameters.
--	Users can still join tables to get detailed information about the selected YouTube channels.
-6.	Display Query Results in Streamlit App:
+5.	Display Query Results in Streamlit App:
 -	The Streamlit app should display the results of SQL queries in tables for easy visualization and analysis.
--	Provide options for exporting/query results for further analysis or sharing.
-
 
 ![image](https://github.com/kailagovardhinik/YouTube-Data-Harvesting-and-Warehousing-using-SQL-MongoDB-and-Streamlit/assets/141433548/c6031775-b685-4098-98e9-4603033fe4c0)
-
 
 
 Feel free to contribute to this project by creating pull requests or raising issues.
