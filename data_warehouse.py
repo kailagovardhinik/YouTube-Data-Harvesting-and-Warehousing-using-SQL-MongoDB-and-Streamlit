@@ -454,19 +454,36 @@ def show_comments_table():
     return comments_table
 
 #building a streamlit application
-with st.sidebar:
-    st.title(":red[YOUTUBE DATA HARVESTING AND WAREHOUSING]")
-st.subheader(":black[_Effortlessly explore and analyze data from multiple channels_]:rocket:")
+page_bg_img='''
+<style>
+[data-testid="stAppViewContainer"]{
+    background-color:#101010;   
+}
+</style>'''
+st.markdown(page_bg_img,unsafe_allow_html=True)
+st.title(":red[YOUTUBE DATA HARVESTING AND WAREHOUSING]")
+
 st.divider()   
-channel_id = st.text_input("Channel ID")
+channel_id = st.text_input(":red[Channel ID]")
 channels = channel_id.split(',')
 channels = [ch.strip() for ch in channels if ch]
+from PIL import Image
+img=Image.open("yt.png")
+with st.sidebar:
+    st.image(img)
+    st.header(":white[_Welcome to YouTube Channel Analytics platform, designed to provide you with insights about any YouTube channel. With the ability to input a YouTube channel ID, this tool empowers you to retrieve data including channel name, subscriber count, total video count, playlist ID, video ID, and metrics such as likes, dislikes, and comments for each video.:rocket:_]")
+    
+col1, col2 = st.columns(2)
+with col1:
+    button1 = st.button("Collect Data",type="primary")
 
+with col2:
+    button2 = st.button("Migrate Data to SQL",type="primary")
 
-if st.button("Collect Data",type="primary"):
+if button1:
     for channel in channels:
         ch_ids = []
-        db = client["Youtube_data"]
+        db = client["YouTube_Data"]
         col1 = db["Channel Details"]
         for ch_data in col1.find({},{"_id":0,"channel_information":1}):
             ch_ids.append(ch_data["channel_information"]["Channel_id"])
@@ -476,23 +493,23 @@ if st.button("Collect Data",type="primary"):
             output = channel_details(channel)
             st.success(output)
             
-if st.button("Migrate Data to SQL",type="primary"):
+if button2:
     display = tables()
     st.success(display)
     
-show_table = st.radio("SELECT THE TABLE BELOW TO VIEW",(":black[Channels]",":black[Playlists]",":black[Videos]",":black[Comments]"))
+show_table = st.radio("SELECT THE TABLE BELOW TO VIEW",(":red[Channels]",":red[Playlists]",":red[Videos]",":red[Comments]"))
 
-if show_table == ":black[Channels]":
+if show_table == ":red[Channels]":
     show_channels_table()
-elif show_table == ":black[Playlists]":
+elif show_table == ":red[Playlists]":
     show_playlists_table()
-elif show_table ==":black[Videos]":
+elif show_table ==":red[Videos]":
     show_videos_table()
-elif show_table == ":black[Comments]":
+elif show_table == ":red[Comments]":
     show_comments_table()
 
 
-question = st.selectbox('Curated Inquiries',
+question = st.selectbox(':red[Curated Inquiries]',
                         ('Please Select Your Question',
                         '1. Video and Channel Names Overview',
                         '2. Top Video Producers',
