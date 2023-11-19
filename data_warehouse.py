@@ -8,13 +8,12 @@ import streamlit as st
 #connecting to youtube using API Key
 youtube = build("youtube","v3", developerKey="AIzaSyDj5WwmFp4Qu03Px3qKzU0o0KsdrV_IJsw")
 
-
 #connecting to SQL
 mydb=mysql.connector.connect(
     host="localhost",
     user="root",
     password="risehigh07",
-    database="youtube_data"
+    database="youtube_warehouse"
     )
 mycursor=mydb.cursor()
 
@@ -41,7 +40,6 @@ def channel_information(Channel_id):
                     Channel_type=i['topicDetails']['topicCategories'],
                     Playlist_id=i['contentDetails']['relatedPlaylists']['uploads'])
     return data
-
 
 #to get the details of playlist
 def get_playlist_details(Channel_ID):
@@ -90,7 +88,6 @@ def all_video_info(Channel_id):
             break
     return Video_id
 
-
 #creating a function to get comment information when video id is provided
 def comment_information(Video_id):
         Comment_data=[]
@@ -114,7 +111,6 @@ def comment_information(Video_id):
         except:
                 pass
         return Comment_data
-
 
 #creating a function to get information about each video when video id is provided
 def get_video_information(Video_id):
@@ -145,8 +141,6 @@ def get_video_information(Video_id):
                         video_data.append(data)
         return video_data
     
-
-
 # Function Block that consists of five other functions to get the details from channel ID
 def channel_details(Channel_ID):
     Channel_Detail=channel_information(Channel_ID)
@@ -218,7 +212,6 @@ def channels_table():
         except:
             st.write("Channel values are inserted already")
 
-
 #creating a table for playlist 
 def playlists_table():
     drop='''drop table if exists playlists'''
@@ -238,8 +231,8 @@ def playlists_table():
         mydb.commit()
     except:
         st.write("Playlists Table is created already")
-        b = client["Youtube_data"]
-    
+        
+    db = client["Youtube_data"]
     col1 =db["Channel Details"]
     pl_list = []
     for pl_data in col1.find({},{"_id":0,"playlist_information":1}):
@@ -258,18 +251,18 @@ def playlists_table():
                                             VALUES(%s,%s,%s,%s,%s,%s)'''            
         values =(
                 row['Playlist_ID'],
-                row['Title'],
-                row['ChannelId'],
-                row['ChannelName'],
+                row['Playlist_name'],
+                row['Channel_ID'],
+                row['Channel_Name'],
                 row['PublishedAt'],
-                row['VideoCount'])
+                row['Video_Count'])
                 
         try:                     
             mycursor.execute(insert_query,values)
             mydb.commit()    
         except:
             st.write("Playlists values are inserted already")
-
+            
 
 #creating a table for comments
 def comments_table():
@@ -309,10 +302,10 @@ def comments_table():
             '''
             values = (
                 row['Comment_ID'],
-                row['Video_ID'],
+                row['Video_id'],
                 row['Comment_text'],
                 row['Comment_Author'],
-                row['Comment_Published_Date']
+                row['Comment_Published']
             )
             try:
                 mycursor.execute(insert_query,values)
@@ -320,8 +313,6 @@ def comments_table():
             except:
                 st.write("This comments are already exist in comments table")
                 
-
-#creating a table for Videos
 def videos_table():    
     drop='''drop table if exists videos'''
     mycursor.execute(drop)
@@ -362,7 +353,8 @@ def videos_table():
     
     for index, row in df2.iterrows():
         insert_query = '''
-                    INSERT INTO videos (Channel_Name,
+                    INSERT INTO videos (
+                        Channel_Name,
                         Channel_Id,
                         Video_Id, 
                         Title, 
@@ -404,7 +396,6 @@ def videos_table():
         except:
             st.write("videos values already are inserted")
             
-
 # Function Block that consists of four other functions to create tables such as channels,playlists,videos and comments
 def tables():
     channels_table()
@@ -412,7 +403,6 @@ def tables():
     videos_table()
     comments_table()
     return "Tables Created Successfully"
-
 
 def show_channels_table():
     ch_list = []
@@ -453,7 +443,6 @@ def show_comments_table():
     comments_table = st.dataframe(com_list)
     return comments_table
 
-#building a streamlit application
 page_bg_img='''
 <style>
 [data-testid="stAppViewContainer"]{
@@ -497,7 +486,7 @@ if button2:
     display = tables()
     st.success(display)
     
-show_table = st.radio("SELECT THE TABLE BELOW TO VIEW",(":red[Channels]",":red[Playlists]",":red[Videos]",":red[Comments]"))
+show_table = st.radio(":red[_SELECT THE TABLE BELOW TO VIEW_]",(":red[Channels]",":red[Playlists]",":red[Videos]",":red[Comments]"))
 
 if show_table == ":red[Channels]":
     show_channels_table()
@@ -507,8 +496,7 @@ elif show_table ==":red[Videos]":
     show_videos_table()
 elif show_table == ":red[Comments]":
     show_comments_table()
-
-
+    
 question = st.selectbox(':red[Curated Inquiries]',
                         ('Please Select Your Question',
                         '1. Video and Channel Names Overview',
@@ -526,11 +514,11 @@ if question == '1. Video and Channel Names Overview':
     query1 = "select Title as videos, Channel_Name as ChannelName from videos;"
     mycursor.execute(query1)
     mydb.commit()
-    t1=cursor.fetchall()
+    t1=mycursor.fetchall()
     st.write(pd.DataFrame(t1, columns=["Video Title","Channel Name"]))
-
+    
 elif question == '2. Top Video Producers':
-    query2 = "select Channel_Name as ChannelName,Total_Videos as NO_Videos from channels order by Total_Videos desc;"
+    query2 = "select Channel_name as ChannelName,Total_videos as No_of_Videos from channels order by Total_videos desc;"
     mycursor.execute(query2)
     mydb.commit()
     t2=mycursor.fetchall()
@@ -542,15 +530,15 @@ elif question == '3. Top 10 Most Viewed Videos':
     mycursor.execute(query3)
     mydb.commit()
     t3 = mycursor.fetchall()
-    st.write(pd.DataFrame(t3, columns = ["views","channel Name","video title"]))
-
+    st.write(pd.DataFrame(t3, columns = ["Views","Channel Name","Video title"]))
+    
 elif question == '4. Comments Breakdown':
     query4 = "select Comments as No_comments ,Title as VideoTitle from videos where Comments is not null;"
     mycursor.execute(query4)
     mydb.commit()
     t4=mycursor.fetchall()
     st.write(pd.DataFrame(t4, columns=["No Of Comments", "Video Title"]))
-
+    
 elif question == '5. Likes Leaderboard':
     query5 = '''select Title as VideoTitle, Channel_Name as ChannelName, Likes as LikesCount from videos 
     where Likes is not null order by Likes desc;'''
@@ -558,31 +546,31 @@ elif question == '5. Likes Leaderboard':
     mydb.commit()
     t5 = mycursor.fetchall()
     st.write(pd.DataFrame(t5, columns=["video Title","channel Name","like count"]))
-
+    
 elif question == '6. Likes and Dislikes Analysis':
     query6 = '''select Likes as likeCount,Title as VideoTitle from videos;'''
     mycursor.execute(query6)
     mydb.commit()
     t6 = mycursor.fetchall()
-    st.write(pd.DataFrame(t6, columns=["like count","video title"]))
+    st.write(pd.DataFrame(t6, columns=["Like count","Video title"]))
 
 elif question == '7. Channel View Totals':
-    query7 = "select Channel_Name as ChannelName, Views as Channelviews from channels;"
+    query7 = "select Channel_name as ChannelName, Channel_views as Channelviews from channels;"
     mycursor.execute(query7)
     mydb.commit()
     t7=mycursor.fetchall()
-    st.write(pd.DataFrame(t7, columns=["channel name","total views"]))
-
+    st.write(pd.DataFrame(t7, columns=["Channel Name","Total Views"]))
+    
 elif question == '8. 2022 Channel Publishers':
     query8 = '''select Title as Video_Title, Published_Date as VideoRelease, Channel_Name as ChannelName from videos 
                 where extract(year from Published_Date) = 2022;'''
     mycursor.execute(query8)
     mydb.commit()
     t8=mycursor.fetchall()
-    st.write(pd.DataFrame(t8,columns=["Name", "Video Publised On", "ChannelName"]))
-
+    st.write(pd.DataFrame(t8,columns=["Name", "Video Publised On", "Channel Name"]))
+    
 elif question == '9.Average Video Duration by Channel':
-    query9 =  "SELECT Channel_Name as ChannelName, AVG(Duration) AS average_duration FROM videos GROUP BY Channel_Name;"
+    query9 =  "SELECT Channel_Name as ChannelName, Duration AS average_duration FROM videos GROUP BY Channel_Name;"
     mycursor.execute(query9)
     mydb.commit()
     t9=mycursor.fetchall()
