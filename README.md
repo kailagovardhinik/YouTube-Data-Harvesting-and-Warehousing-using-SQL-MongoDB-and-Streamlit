@@ -11,27 +11,30 @@ The primary aim of this project is to create an application to simplify the proc
 - SQL Database: Utilized for storing structured data for further analysis.
 
 ## Install Dependencies
+
 - streamlit
 - pandas
 - pymongo
 - googleapiclient.discovery
-- 
-## Set Up API Keys:
-- Obtain YouTube API keys and MongoDB credentials. Update the config.py file with the necessary information.
-- 
-### Features
+  
+## Set Up API Keys
+
+- Obtain YouTube API keys from google cloud console.
+  
+## Features
+
 - Retrieve data for a YouTube channel (Channel name, subscribers, total video count, playlist ID, video ID, likes, dislikes, comments of each video) using Google API.
 - Store data in a MongoDB database as a data lake.
 - Collect data for up to 10 different YouTube channels and store them in the data lake.
 - Migrate data from the data lake to a SQL database.
 - Search and retrieve data from the SQL database with different search options, including joining tables.
 
-### Approach
-1. **Set up a Streamlit app:** Create a simple UI for user interaction.
-2. **Connect to the YouTube API:** Use the Google API client library for Python.
-3. **Store data in MongoDB:** Utilize MongoDB for its flexibility with unstructured data.
-4. **Migrate data to SQL:** Transfer data to a SQL data warehouse (e.g., MySQL or PostgreSQL).
-5. **Query the SQL data warehouse:** Use SQL queries, potentially with SQLAlchemy for interaction.
+## Approach
+
+1. **Connect to the YouTube API:** Use the Google API client library for Python
+2. **Store data in MongoDB:** Utilize MongoDB for its flexibility with unstructured data.
+3. **Migrate data to SQL:** Transfer data to a SQL data warehouse (e.g., MySQL or PostgreSQL).
+5. **Query the SQL data warehouse:** Use SQL queries for interaction.
 6. **Display data in Streamlit:** Leverage Streamlit's data visualization features for a user-friendly interface.
 
 ## SQL Query Outputs in Streamlit Application
