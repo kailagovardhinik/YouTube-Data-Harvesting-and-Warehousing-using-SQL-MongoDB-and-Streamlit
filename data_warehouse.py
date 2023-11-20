@@ -599,18 +599,20 @@ elif question == '8. 2022 Channel Publishers':
     st.write(pd.DataFrame(t8,columns=["Name", "Video Publised On", "Channel Name"]))
     
 elif question == '9.Average Video Duration by Channel':
-    query9 =  "SELECT Channel_name as ChannelName, Duration as average_duration FROM videos GROUP BY Channel_name;"
+    query9 =  "SELECT Channel_name as ChannelName, Duration as average_duration FROM videos;"
     mycursor.execute(query9)
+
     mydb.commit()
     t9=mycursor.fetchall()
     t9 = pd.DataFrame(t9, columns=['ChannelTitle', 'Average Duration'])
     T9=[]
     for index, row in t9.iterrows():
-        channel_title = row['ChannelTitle']
-        average_duration = row['Average Duration']
-        average_duration_str = str(average_duration)
-        T9.append({"Channel Title": channel_title ,  "Average Duration": average_duration_str})
-    st.write(pd.DataFrame(T9))
+            channel_title = row['ChannelTitle']
+            average_duration = row['Average Duration']
+            average_duration_str = str(average_duration)
+            T9.append({"Channel Title": channel_title ,  "Average Duration": average_duration_str})
+    T9=pd.DataFrame(T9,columns=['Channel Title', 'Average Duration'])
+    T9["Average Duration"]=T9["Average Duration"].str.replace("0 days ","")
 
 elif question == '10. Comment Champions':
     query10 = '''select Title as VideoTitle, Channel_name as ChannelName, Comments as Comments from videos 
