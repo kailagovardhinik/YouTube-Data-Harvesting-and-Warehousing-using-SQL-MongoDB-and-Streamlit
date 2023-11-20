@@ -10,24 +10,43 @@ The primary aim of this project is to create an application to simplify the proc
 - MongoDB: Used as a data lake for storing raw data.
 - SQL Database: Utilized for storing structured data for further analysis.
 
-## Libraries Used
+## Install Dependencies
 - streamlit
 - pandas
 - pymongo
 - googleapiclient.discovery
+- 
+## Set Up API Keys:
+- Obtain YouTube API keys and MongoDB credentials. Update the config.py file with the necessary information.
+- 
+### Features
+- Retrieve data for a YouTube channel (Channel name, subscribers, total video count, playlist ID, video ID, likes, dislikes, comments of each video) using Google API.
+- Store data in a MongoDB database as a data lake.
+- Collect data for up to 10 different YouTube channels and store them in the data lake.
+- Migrate data from the data lake to a SQL database.
+- Search and retrieve data from the SQL database with different search options, including joining tables.
 
-## Project Workflow:
+### Approach
+1. **Set up a Streamlit app:** Create a simple UI for user interaction.
+2. **Connect to the YouTube API:** Use the Google API client library for Python.
+3. **Store data in MongoDB:** Utilize MongoDB for its flexibility with unstructured data.
+4. **Migrate data to SQL:** Transfer data to a SQL data warehouse (e.g., MySQL or PostgreSQL).
+5. **Query the SQL data warehouse:** Use SQL queries, potentially with SQLAlchemy for interaction.
+6. **Display data in Streamlit:** Leverage Streamlit's data visualization features for a user-friendly interface.
 
-1.  User Inputs YouTube Channel ID in the Streamlit app:
--	The user can manually input a YouTube channel ID for immediate data retrieval.
-2.	Data Collection and Storage:
--	the retrived data is stored in MongoDB compass as part of the data lake.
-3.	User Clicks a Button to Collect Data for Up to 10 Channels:
--	Users can still manually trigger the data collection process for immediate needs.
-4.	User Selects a Channel Name to Migrate Data to SQL Database:
--	The user can choose a specific channel from the data lake for migration to the SQL database as tables.
-5.	Display Query Results in Streamlit App:
--	The Streamlit app should display the results of SQL queries in tables for easy visualization and analysis.
+## SQL Query Outputs in Streamlit Application
+
+1. What are the names of all the videos and their corresponding channels?
+2. Which channels have the most number of videos, and how many videos do they have?
+3. What are the top 10 most viewed videos and their respective channels?
+4. How many comments were made on each video, and what are their corresponding video names?
+5. Which videos have the highest number of likes, and what are their corresponding channel names?
+6. What is the total number of likes and dislikes for each video, and what are their corresponding video names?
+7. What is the total number of views for each channel, and what are their corresponding channel names?
+8. What are the names of all the channels that have published videos in the year 2022?
+9. What is the average duration of all videos in each channel, and what are their corresponding channel names?
+10. Which videos have the highest number of comments, and what are their corresponding channel names?
+
 
 ![image](https://github.com/kailagovardhinik/YouTube-Data-Harvesting-and-Warehousing-using-SQL-MongoDB-and-Streamlit/assets/141433548/c6031775-b685-4098-98e9-4603033fe4c0)
 
