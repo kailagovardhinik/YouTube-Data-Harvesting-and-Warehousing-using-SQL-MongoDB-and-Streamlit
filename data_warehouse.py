@@ -156,6 +156,14 @@ def channel_details(Channel_ID):
 
 #creating a table for channels in mysql database
 def channels_table():
+    mydb=mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="risehigh07",
+    database="youtube_warehouse"
+    )
+    mycursor=mydb.cursor()
+    
     drop='''drop table if exists channels'''
     mycursor.execute(drop)
     mydb.commit()
@@ -178,7 +186,7 @@ def channels_table():
         st.write("Channel table is created already")
         
     ch_list=[]
-    db=client["Youtube_data"]
+    db=client["YouTube_Data"]
     coll1=db["Channel Details"]
     for ch_data in coll1.find({},{"_id":0,"channel_information":1}):
         ch_list.append(ch_data["channel_information"])
@@ -214,6 +222,14 @@ def channels_table():
 
 #creating a table for playlist 
 def playlists_table():
+    mydb=mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="risehigh07",
+    database="youtube_warehouse"
+    )
+    mycursor=mydb.cursor()
+    
     drop='''drop table if exists playlists'''
     mycursor.execute(drop)
     mydb.commit()
@@ -232,7 +248,7 @@ def playlists_table():
     except:
         st.write("Playlists Table is created already")
         
-    db = client["Youtube_data"]
+    db = client["YouTube_Data"]
     col1 =db["Channel Details"]
     pl_list = []
     for pl_data in col1.find({},{"_id":0,"playlist_information":1}):
@@ -266,6 +282,14 @@ def playlists_table():
 
 #creating a table for comments
 def comments_table():
+    mydb=mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="risehigh07",
+    database="youtube_warehouse"
+    )
+    mycursor=mydb.cursor()
+    
     drop='''drop table if exists comments'''
     mycursor.execute(drop)
     mydb.commit()
@@ -280,10 +304,10 @@ def comments_table():
         mydb.commit()
         
     except:
-        st.write("Commentsp Table already created")
+        st.write("Comments Table already created")
 
     com_list = []
-    db = client["Youtube_data"]
+    db = client["YouTube_Data"]
     coll1 = db["Channel Details"]
     for com_data in coll1.find({},{"_id":0,"comment_information":1}):
         for i in range(len(com_data["comment_information"])):
@@ -313,7 +337,15 @@ def comments_table():
             except:
                 st.write("This comments are already exist in comments table")
                 
-def videos_table():    
+def videos_table():
+    mydb=mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="risehigh07",
+    database="youtube_warehouse"
+    )
+    mycursor=mydb.cursor()
+    
     drop='''drop table if exists videos'''
     mycursor.execute(drop)
     mydb.commit()
@@ -343,7 +375,7 @@ def videos_table():
         st.write("Videos Table is created already")
 
     vi_list = []
-    db = client["Youtube_data"]
+    db = client["YouTube_Data"]
     col1 = db["Channel Details"]
     for vi_data in col1.find({},{"_id":0,"video_information":1}):
         for i in range(len(vi_data["video_information"])):
@@ -406,7 +438,7 @@ def tables():
 
 def show_channels_table():
     ch_list = []
-    db = client["Youtube_data"]
+    db = client["YouTube_Data"]
     coll1 = db["Channel Details"] 
     for ch_data in coll1.find({},{"_id":0,"channel_information":1}):
         ch_list.append(ch_data["channel_information"])
@@ -414,7 +446,7 @@ def show_channels_table():
     return channels_table
 
 def show_playlists_table():
-    db = client["Youtube_data"]
+    db = client["YouTube_Data"]
     coll1 =db["Channel Details"]
     pl_list = []
     for pl_data in coll1.find({},{"_id":0,"playlist_information":1}):
@@ -425,7 +457,7 @@ def show_playlists_table():
 
 def show_videos_table():
     vi_list = []
-    db = client["Youtube_data"]
+    db = client["YouTube_Data"]
     coll2 = db["Channel Details"]
     for vi_data in coll2.find({},{"_id":0,"video_information":1}):
         for i in range(len(vi_data["video_information"])):
@@ -435,7 +467,7 @@ def show_videos_table():
 
 def show_comments_table():
     com_list = []
-    db = client["Youtube_data"]
+    db = client["YouTube_Data"]
     coll3 = db["Channel Details"]
     for com_data in coll3.find({},{"_id":0,"comment_information":1}):
         for i in range(len(com_data["comment_information"])):
