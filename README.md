@@ -1,8 +1,8 @@
 # YouTube Data Harvesting and Warehousing using SQL, MongoDB and Streamlit
 <p align="left"> <a href="https://www.linkedin.com/in/kailagovardhinik/" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin.svg" width="32" height="32" /> </picture> </a></p>
 
-## click the icon below view the vidoe demonstation of the application
-<p align="left"> <a href="https://www.youtube.com/watch?v=Vnazhn5Aqtc&t=11s" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="undefined" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/rss.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/rss.svg" width="32" height="32" /> </picture> </a></p>
+## click the link below view the vidoe demonstation of the application-https://www.youtube.com/watch?v=Vnazhn5Aqtc&t=11s
+
 
 The primary aim of this project is to create an application to simplify the process of accessing and analyzing data from numerous YouTube channels. Users can input a specific YouTube channel ID to extract a range of data, such as the channel name, subscriber count, total video count, playlist ID, video ID, as well as metrics like likes, dislikes, and comments for each video. The Google API is utilized for this data retrieval process. Additionally, the data can be initially stored in a MongoDB database, serving as a data lake, before being transferred to a SQL database for more extensive analysis.
   
